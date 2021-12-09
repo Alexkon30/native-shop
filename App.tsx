@@ -1,37 +1,30 @@
-import React, { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import 'react-native-gesture-handler';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './src/components/HomeScreen';
-import BasketScreen from './src/components/BasketScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import BasketScreen from './src/screens/BasketScreen';
+import FavoriteScreen from './src/screens/FavoriteScreen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux'
+import { setupStore } from './src/store/store';
 
-const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+const store = setupStore()
 
-const App: FC = () => {
+export default function App() {
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Basket" component={BasketScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+            <Drawer.Screen name="Home" component={HomeScreen} />
+            <Drawer.Screen name="Favorite" component={FavoriteScreen} />
+            <Drawer.Screen name="Basket" component={BasketScreen} />
+          </Drawer.Navigator>
+        </NavigationContainer>
+      </Provider>
+    </SafeAreaProvider>
+  );
 }
-
-export default App
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-
-{/* <View style={styles.container}>
-  <Text>hello</Text>
-  <StatusBar style="auto" />
-</View> */}
