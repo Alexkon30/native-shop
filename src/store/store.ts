@@ -2,16 +2,20 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import goodsReducer from './reducers/GoodsSlice';
 import basketReducer from './reducers/BasketSlice';
 import favoriteReducer from './reducers/FavoriteSlice';
+import { goodsAPI } from '../services/GoodsService';
 
 const rootReducer = combineReducers({
-  goods: goodsReducer,
-  basket: basketReducer,
-  favorite: favoriteReducer,
+  goodsReducer,
+  basketReducer,
+  favoriteReducer,
+  [goodsAPI.reducerPath]: goodsAPI.reducer,
 });
 
 export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(goodsAPI.middleware),
   });
 };
 

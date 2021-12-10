@@ -1,14 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Product } from './GoodsSlice';
 
 export interface FavoriteState {
   goods: Product[];
-}
-
-interface Product {
-  id: number;
-  image: string;
-  name: string;
-  price: number;
 }
 
 const initialState: FavoriteState = {

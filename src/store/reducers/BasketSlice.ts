@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface BasketState {
   goods: Product[];
-  total: number;
+  totalPrice: number;
 }
 
 interface Product {
@@ -15,7 +15,7 @@ interface Product {
 
 const initialState: BasketState = {
   goods: [],
-  total: 0,
+  totalPrice: 0,
 };
 
 export const basketSlice = createSlice({
