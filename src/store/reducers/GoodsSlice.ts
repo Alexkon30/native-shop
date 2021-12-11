@@ -25,7 +25,7 @@ const initialState: GoodsState = {
   sortingBy: 'none',
   searchMode: null,
   searchValue: '',
-  isLoading: false,
+  isLoading: true,
 };
 
 export const goodsSlice = createSlice({
@@ -53,6 +53,13 @@ export const goodsSlice = createSlice({
     },
     setLoading(state, action) {
       state.isLoading = action.payload;
+    },
+    rateProduct(state, action) {
+      for (let elem of state.goods) {
+        if (elem.id === action.payload) {
+          elem.isFavorite = !elem.isFavorite;
+        }
+      }
     },
   },
 });

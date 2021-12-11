@@ -3,22 +3,17 @@ import { StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../components/Header';
 import Sorting from '../components/Sorting';
+import List from '../components/List';
 
-//------
-import HomeList from '../components/HomeList';
-//***** */
-
-import { useAppSelector } from '../hooks/redux';
 
 const FavoriteScreen: FC = () => {
-  const favorite = useAppSelector(state => state.favoriteReducer.goods)
 
   return (
     <SafeAreaView style={styles.container}>
       <Header title='Favorite goods' />
       <Sorting />
       <ScrollView>
-        <HomeList />
+        <List />
       </ScrollView>
     </SafeAreaView>
   )

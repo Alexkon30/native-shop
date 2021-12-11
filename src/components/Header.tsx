@@ -8,6 +8,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { goodsSlice } from '../store/reducers/GoodsSlice';
 
+import { HomeScreenNavigationProp } from '../../App'
+
 
 type Props = {
   title?: string;
@@ -15,14 +17,12 @@ type Props = {
 
 
 const Header: FC<Props> = ({ title }) => {
-  const [search, setSearch] = useState<string>('')
-
   const { setSortingMode, setSearchMode, setSearchValue } = goodsSlice.actions
   const { searchMode, searchValue } = useAppSelector(state => state.goodsReducer)
 
   const route = useRoute()
   const dispatch = useAppDispatch()
-  const navigation = useNavigation()
+  const navigation = useNavigation<HomeScreenNavigationProp>()
 
   return (
     <View style={styles.body}>

@@ -9,7 +9,8 @@ export const goodsAPI = createApi({
   endpoints: (build) => ({
     fetchAllGoods: build.query<Product[], null>({
       query: () => '',
-      transformResponse: (response: { items: Product[] }) => response.items,
+      transformResponse: (response: { items: Product[] }) =>
+        response.items.map((item) => ({ ...item, isFavorite: false })),
     }),
   }),
 });

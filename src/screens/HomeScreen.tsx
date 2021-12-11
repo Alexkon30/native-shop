@@ -1,20 +1,35 @@
-import React, { FC } from 'react'
-import { ScrollView, StyleSheet, StatusBar } from 'react-native';
+import React, { FC, useEffect } from 'react'
+import { StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../components/Header';
 import Sorting from '../components/Sorting';
-import HomeList from '../components/HomeList';
+import List from '../components/List';
+import { goodsAPI } from '../services/GoodsService'
+import { goodsSlice } from '../store/reducers/GoodsSlice'
+import { useAppDispatch } from '../hooks/redux'
 
 
 
 const HomeScreen: FC = () => {
+
+  const { data, isLoading } = goodsAPI.useFetchAllGoodsQuery(null)
+  const dispatch = useAppDispatch()
+  const { setGoods, setLoading } = goodsSlice.actions
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      dispatch(setGoods(data))
+      dispatch(setLoading(false))
+    }
+  }, [isLoading])
+
 
   return (
     <SafeAreaView style={styles.container}>
       <Header title='Awesome shop' />
       <Sorting />
       <ScrollView>
-        <HomeList />
+        <List />
       </ScrollView>
     </SafeAreaView>
   )

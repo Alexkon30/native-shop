@@ -1,19 +1,34 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 import { Text, View, Image, StyleSheet, Button } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import GoodsSlice, { goodsSlice } from '../store/reducers/GoodsSlice';
+import { basketSlice } from '../store/reducers/BasketSlice';
+import { useNavigation } from '@react-navigation/native';
+
+import { Product } from '../store/reducers/GoodsSlice';
+
+import { HomeScreenNavigationProp } from '../../App'
 
 interface CardProps {
-  product: {
-    id: number
-    image: string
-    name: string
-    price: number
-    isFavorite: boolean
-  }
+  product: Product
 }
 
 const ProductCard: FC<CardProps> = ({ product }) => {
   const [check, setCheck] = useState(false)
+
+  const dispatch = useAppDispatch()
+  const navigation = useNavigation<HomeScreenNavigationProp>()
+
+  const { rateProduct } = goodsSlice.actions
+  const { addProduct } = basketSlice.actions
+  const { goods: order } = useAppSelector(state => state.basketReducer)
+
+  const status = useMemo(() => {
+    return order.filter(item => item.id === product.id).length
+  }, [order])
+
+
 
   return (
     <View style={styles.product}>
@@ -40,9 +55,17 @@ const ProductCard: FC<CardProps> = ({ product }) => {
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View style={{ width: '50%' }}>
-            <Button title={`${check ? 'to order' : 'add'}`} color={`${check ? 'teal' : 'cornflowerblue'}`} />
+
+            {status
+              ? <Button title='to order' color='teal' onPress={() => navigation.navigate('Basket')} />
+              : <Button title='add' color='cornflowerblue' onPress={() => {
+                dispatch(addProduct(product))
+                setCheck(true)
+              }} />
+            }
           </View>
-          <AntDesign name={`${product.isFavorite ? 'heart' : 'hearto'}`} size={24} color="cadetblue" />
+          <AntDesign name={`${product.isFavorite ? 'heart' : 'hearto'}`} size={24} color="cadetblue"
+            onPress={() => dispatch(rateProduct(product.id))} />
         </View>
       </View>
     </View >
