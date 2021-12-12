@@ -28,27 +28,28 @@ export const List: FC = () => {
   //итоговый список товаров с учетом всех сортировок
   const result = useMemo<Product[]>(() => {
     //создаем копию состояния
-    let resultValue = JSON.parse(JSON.stringify(goods))
+    let resultValue: Product[] = JSON.parse(JSON.stringify(goods))
 
     //проверка на текущую директорию и соответсвующая фильтрация
     if (route.name === 'Favorite') {
-      resultValue = resultValue.filter((item: Product) => item.isFavorite === true)
+      resultValue = resultValue.filter((item) => item.isFavorite === true)
     }
 
     //проверка на поиск по названию и соответсвующая фильтрация
-    if (searchValue !== '') {
-      resultValue = resultValue.filter((item: Product) => item.name.toLowerCase().includes(`${searchValue.toLowerCase()}`))
+    if (searchValue !== '' && sortingMode === route.name) {
+      resultValue = resultValue.filter((item) =>
+        item.name.toLowerCase().includes(`${searchValue.toLowerCase()}`))
     }
 
     //проверка на способ сортировки
     if (sortingBy === 'name') {
-      resultValue.sort((a: Product, b: Product) => {
+      resultValue.sort((a, b) => {
         if (a.name.toLowerCase() > b.name.toLowerCase()) return 1
         if (a.name.toLowerCase() < b.name.toLowerCase()) return -1
         return 0
       })
     } else if (sortingBy === 'price') {
-      resultValue.sort((a: Product, b: Product) => {
+      resultValue.sort((a, b) => {
         if (a.price > b.price) return 1
         if (a.price < b.price) return -1
         return 0
@@ -63,18 +64,18 @@ export const List: FC = () => {
 
   return (
     <>
-      {isLoading
-        //условный рендеринг в зависимости от флага загрузки
-        ? <View style={styles.loadingContainer}>
-          <ActivityIndicator color='#1B8873' size='large' />
-        </View>
-        : result.length
-          //условный рендеринг в зависимости от количества найденных результатов
-          //вывести список, если длина списка больше 0, иначе текст "Not found"
-          ? result.map((item: Product) => <ProductCard key={item.id} product={item} />)
-          : <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>Not found</Text>
+      {//условный рендеринг в зависимости от флага загрузки
+        isLoading
+          ? <View style={styles.loadingContainer}>
+            <ActivityIndicator color='#1B8873' size='large' />
           </View>
+          : result.length
+            //условный рендеринг в зависимости от количества найденных результатов
+            //вывести список, если длина списка больше 0, иначе текст "Not found"
+            ? result.map((item: Product) => <ProductCard key={item.id} product={item} />)
+            : <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>Not found</Text>
+            </View>
       }
     </>
   )

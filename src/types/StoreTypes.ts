@@ -7,7 +7,7 @@ type Modes = 'Home' | 'Favorite' | 'Basket' | null;
 export interface GoodsState {
   goods: Product[];
   sortingMode: Modes;
-  sortingBy: 'price' | 'name' | 'none';
+  sortingBy: 'price' | 'name' | 'default';
   searchValue: string;
   isLoading: boolean;
 }

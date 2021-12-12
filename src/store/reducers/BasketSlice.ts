@@ -3,7 +3,7 @@
 //функция для создания слайса
 import { createSlice } from '@reduxjs/toolkit';
 //types
-import { BasketState, BasketProduct } from '../../types/StoreTypes';
+import { BasketState } from '../../types/StoreTypes';
 
 //начальное состояние
 const initialState: BasketState = {

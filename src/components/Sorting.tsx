@@ -35,6 +35,8 @@ export const Sorting: FC = () => {
         <View style={styles.switch}>
           <TextInput
             //поле ввода для поиска по названию
+            autoFocus={true}
+            placeholder='Product name'
             style={styles.input}
             onChangeText={(value) => dispatch(setSearchValue(value))}
             value={searchValue}
@@ -45,7 +47,7 @@ export const Sorting: FC = () => {
               prompt='Sort results by'
               selectedValue={sortingBy}
               onValueChange={(value) => dispatch(setSortingBy(value))}>
-              <Picker.Item label="none" value="none" />
+              <Picker.Item label="default" value="default" />
               <Picker.Item label="name" value="name" />
               <Picker.Item label="price" value="price" />
             </Picker>
@@ -60,7 +62,6 @@ const styles = StyleSheet.create({
   switch: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'azure',
     paddingHorizontal: 10,
     marginBottom: 5,
   },
@@ -68,11 +69,12 @@ const styles = StyleSheet.create({
     flex: 1
   },
   input: {
-    width: '70%',
+    width: '65%',
     backgroundColor: 'azure',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
-    color: 'darkblue'
+    color: 'darkblue',
+    textDecorationLine: 'none'
   },
 })

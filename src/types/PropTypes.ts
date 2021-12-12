@@ -10,7 +10,8 @@ export interface BasketCardProps {
   product: BasketProduct;
 }
 
-//пропсы для карточки товара в списке на основном и избранном экране
+//пропсы для карточки товара в списке
+//на основном и экране с избранными товарами
 export interface ProductCardProps {
   product: Product;
 }
@@ -20,11 +21,11 @@ export interface HeaderProps {
   title?: string;
 }
 
-export type RootStackParamList = {
+export type RootDrawerParamList = {
   Home: undefined;
   Favorite: undefined;
   Basket: undefined;
 };
 
-type Props = DrawerScreenProps<RootStackParamList, 'Home'>;
+type Props = DrawerScreenProps<RootDrawerParamList>;
 export type ScreenNavigationProp = Props['navigation'];

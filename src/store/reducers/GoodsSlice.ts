@@ -9,7 +9,7 @@ import { GoodsState } from '../../types/StoreTypes';
 const initialState: GoodsState = {
   goods: [],
   sortingMode: null,
-  sortingBy: 'none',
+  sortingBy: 'default',
   searchValue: '',
   isLoading: true,
 };
@@ -39,7 +39,7 @@ export const goodsSlice = createSlice({
     setSortingBy(state, action) {
       state.sortingBy = action.payload;
     },
-    //уставнока поиска по названию
+    //установка поиска по названию
     setSearchValue(state, action) {
       state.searchValue = action.payload;
     },
@@ -47,7 +47,8 @@ export const goodsSlice = createSlice({
     setLoading(state, action) {
       state.isLoading = action.payload;
     },
-    //смена значения isFavorite на противоположное для товара с указанным id
+    //смена значения isFavorite на противоположное
+    //для товара с указанным
     rateProduct(state, action) {
       state.goods.forEach((item) => {
         if (item.id === action.payload) {

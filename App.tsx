@@ -10,17 +10,17 @@ import { FavoriteScreen } from './src/screens/FavoriteScreen'
 import { NavigationContainer } from '@react-navigation/native'
 //функция для создания навигации
 import { createDrawerNavigator } from '@react-navigation/drawer'
-//компонент для ограничения безопасной зоны отрисовки
+//провайдер для ограничения безопасной зоны отрисовки
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 //store
 import { setupStore } from './src/store/store'
 //store provider
 import { Provider } from 'react-redux'
 //types
-import { RootStackParamList } from './src/types/PropTypes'
+import { RootDrawerParamList } from './src/types/PropTypes'
 
 //создаем типизированную навигационную обертку
-const Drawer = createDrawerNavigator<RootStackParamList>()
+const Drawer = createDrawerNavigator<RootDrawerParamList>()
 //инициализируем store
 const store = setupStore()
 

@@ -68,7 +68,8 @@ export const BasketList: FC = () => {
             <FontAwesome5 name="shopping-basket" size={100} color="#8AB0E9" />
             <Text style={styles.emptyHeader}>Basket is empty</Text>
             <View style={styles.emptyButton}>
-              <Text onPress={() => navigation.navigate('Home')} style={styles.emptyButtonText}>Go shopping</Text>
+              <Text onPress={() => navigation.navigate('Home')}
+                style={styles.emptyButtonText}>Go shopping</Text>
             </View>
           </View>
       }

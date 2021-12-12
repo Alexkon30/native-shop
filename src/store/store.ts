@@ -2,7 +2,7 @@
 
 //функции для конфигурации
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-//reducer для запроса списка товаров
+//объект для работы с запросами
 import { goodsAPI } from '../services/GoodsService';
 //reducers
 import goodsReducer from './reducers/GoodsSlice';

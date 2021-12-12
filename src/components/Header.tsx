@@ -5,6 +5,7 @@
 import React, { FC } from 'react'
 //natice components & styles func
 import { View, StyleSheet, Text } from 'react-native'
+//icons
 import { SimpleLineIcons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
@@ -20,7 +21,7 @@ import { HeaderProps } from '../types/PropTypes'
 
 
 export const Header: FC<HeaderProps> = ({ title }) => {
-  //хук для определения текущего скрина/директории
+  //получаем объект текущего местонахождения
   const route = useRoute()
 
   //получаем функцию для взаимодействия с состоянием
@@ -42,9 +43,11 @@ export const Header: FC<HeaderProps> = ({ title }) => {
         {//условный рендеринг в зависимости от директории
           route.name === 'Home'
             //отобразить иконку "Меню" для скрина "Home"
-            ? <SimpleLineIcons name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} />
+            ? <SimpleLineIcons name="menu" size={24} color="white"
+              onPress={() => navigation.openDrawer()} />
             //для остальных скринов - стрелочка "Назад"
-            : <Ionicons name="arrow-back" size={24} color="white" onPress={() => navigation.goBack()} />
+            : <Ionicons name="arrow-back" size={24} color="white"
+              onPress={() => navigation.goBack()} />
         }
       </View>
       <View style={styles.search}>
@@ -63,7 +66,8 @@ export const Header: FC<HeaderProps> = ({ title }) => {
         { //для всех скринов кроме корзины
           //отобразить иконку корзины
           route.name !== 'Basket' && <>
-            <SimpleLineIcons name="basket" size={24} color="white" onPress={() => navigation.navigate('Basket')} />
+            <SimpleLineIcons name="basket" size={24} color="white"
+              onPress={() => navigation.navigate('Basket')} />
             { //отобразить баджи над иконкой корзины
               //только если в корзине что-то есть
               order.length > 0 &&

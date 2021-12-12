@@ -30,14 +30,13 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const { addProduct } = basketSlice.actions
 
   //извлекаем state корзины с помощью деструктуризации
+  //и присваиваем новое имя
   const { goods: order } = useAppSelector(state => state.basketReducer)
 
 
   //проверка на наличие в корзине товара с таким же id
-  const onBasket = useMemo<boolean>(() => {
-
-    //т.к. id уникален, то величина length будет возвращать 1 или 0
-    return !!order.filter(item => item.id === product.id).length
+  const onBasket: boolean = useMemo(() => {
+    return order.some(item => item.id === product.id)
 
     //значение будет пересчитываться при каждом изменении в корзине
   }, [order])
@@ -67,12 +66,12 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
             {onBasket // условный рендеринг в зависимости от того, есть ли товар в корзине
 
               //кнопка для перехода на экран корзины
-              ? <Button title='buy' color='#54D1B8' onPress={() => navigation.navigate('Basket')} />
+              ? <Button title='buy' color='#54D1B8'
+                onPress={() => navigation.navigate('Basket')} />
 
               //кнопка для добавления товара в корзину
-              : <Button title='add' color='#8AB0E9' onPress={() => {
-                dispatch(addProduct(product))
-              }} />
+              : <Button title='add' color='#8AB0E9'
+                onPress={() => { dispatch(addProduct(product)) }} />
             }
           </View>
           <AntDesign
@@ -89,7 +88,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
   )
 }
 
-//Стили
+//cтили
 const styles = StyleSheet.create({
   img: {
     width: 100,
