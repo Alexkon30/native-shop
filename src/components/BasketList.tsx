@@ -1,11 +1,12 @@
 //компонент списка корзины
 
 //react type, hook
-import React, { FC, useMemo } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 //native components
-import { Text, View, Button, ScrollView, StyleSheet } from 'react-native'
+import { Text, View, Button, ScrollView, StyleSheet, Modal, Alert } from 'react-native'
 //icons
 import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 //компонент карточки товара в корзине
 import { BasketProductCard } from './BasketProductCard'
 //hooks
@@ -19,6 +20,9 @@ import { BasketProduct } from '../types/StoreTypes'
 
 
 export const BasketList: FC = () => {
+
+  //стейт для отображения модального окна
+  const [modalVisible, setModalVisible] = useState(true)
 
   //получаем функцию для взаимодействия с состоянием
   const dispatch = useAppDispatch()
@@ -55,8 +59,12 @@ export const BasketList: FC = () => {
               <Text style={styles.listTotal}>Total: {totalPrice}</Text>
               <View style={styles.listButton}>
                 <Button title='Buy' color='#A3C0E9' onPress={() => {
-                  dispatch(resetBasket())
-                  navigation.navigate('Home')
+                  dispatch(resetBasket()) //очищаем корзину
+                  setModalVisible(true)   //показываем модальное окно
+                  setTimeout(() => {
+                    setModalVisible(false)      //по таймауту убираем модальное окно
+                    navigation.navigate('Home') //и перенаправляем на главную страницу
+                  }, 2000)
                 }} />
               </View>
             </ScrollView>
@@ -71,6 +79,20 @@ export const BasketList: FC = () => {
               <Text onPress={() => navigation.navigate('Home')}
                 style={styles.emptyButtonText}>Go shopping</Text>
             </View>
+
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(false);
+              }}
+            >
+              <View style={styles.centeredView}>
+                <MaterialCommunityIcons name="medal" size={150} color="#FFBA8D" />
+                <Text style={styles.modalText}>Thank for purchase!</Text>
+              </View>
+            </Modal>
           </View>
       }
     </View >
@@ -120,5 +142,25 @@ const styles = StyleSheet.create({
     fontSize: 18,
     alignSelf: 'flex-end',
     marginRight: 14
+  },
+  centeredView: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 250,
+    height: 300,
+    alignSelf: 'center',
+    marginVertical: 100,
+    backgroundColor: "white",
+    borderRadius: 10,
+    paddingHorizontal: 30,
+    shadowColor: "#000",
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    elevation: 250
+  },
+  modalText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'darkgreen'
   }
 })
