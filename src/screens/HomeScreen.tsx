@@ -1,20 +1,20 @@
 import React, { FC, useEffect } from 'react'
 import { StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Header from '../components/Header';
-import Sorting from '../components/Sorting';
-import List from '../components/List';
+import { Header } from '../components/Header';
+import { Sorting } from '../components/Sorting';
+import { List } from '../components/List';
 import { goodsAPI } from '../services/GoodsService'
 import { goodsSlice } from '../store/reducers/GoodsSlice'
 import { useAppDispatch } from '../hooks/redux'
 
 
 
-const HomeScreen: FC = () => {
-
-  const { data, isLoading } = goodsAPI.useFetchAllGoodsQuery(null)
+export const HomeScreen: FC = () => {
   const dispatch = useAppDispatch()
   const { setGoods, setLoading } = goodsSlice.actions
+
+  const { data, isLoading } = goodsAPI.useFetchAllGoodsQuery(null)
 
   useEffect(() => {
     if (!isLoading && data) {
@@ -40,5 +40,3 @@ const styles = StyleSheet.create({
     flex: 1
   }
 })
-
-export default HomeScreen

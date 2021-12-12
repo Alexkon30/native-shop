@@ -1,25 +1,27 @@
-import React, { useEffect } from 'react';
-import 'react-native-gesture-handler';
-import { createDrawerNavigator, DrawerScreenProps } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
-import HomeScreen from './src/screens/HomeScreen';
-import BasketScreen from './src/screens/BasketScreen';
-import FavoriteScreen from './src/screens/FavoriteScreen';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+//главный компонент приложения
+
+import React from 'react'
+import 'react-native-gesture-handler'
+//Основные скрины/директории
+import { HomeScreen } from './src/screens/HomeScreen'
+import { BasketScreen } from './src/screens/BasketScreen'
+import { FavoriteScreen } from './src/screens/FavoriteScreen'
+//контейнер для навигации
+import { NavigationContainer } from '@react-navigation/native'
+//функция для создания навигации
+import { createDrawerNavigator } from '@react-navigation/drawer'
+//компонент для ограничения безопасной зоны отрисовки
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+//store
+import { setupStore } from './src/store/store'
+//store provider
 import { Provider } from 'react-redux'
-import { setupStore } from './src/store/store';
+//types
+import { RootStackParamList } from './src/types/PropTypes'
 
-
-type RootStackParamList = {
-  Home: { title: string };
-  Favorite: { title: string };
-  Basket: undefined;
-};
-
-type Props = DrawerScreenProps<RootStackParamList, 'Home'>;
-export type HomeScreenNavigationProp = Props['navigation'];
-
-const Drawer = createDrawerNavigator<RootStackParamList>();
+//создаем типизированную навигационную обертку
+const Drawer = createDrawerNavigator<RootStackParamList>()
+//инициализируем store
 const store = setupStore()
 
 
@@ -28,7 +30,9 @@ export default function App() {
     <SafeAreaProvider>
       <Provider store={store}>
         <NavigationContainer>
-          <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+          <Drawer.Navigator initialRouteName="Home"
+            //не отображать стандартную шапку с именем директории
+            screenOptions={{ headerShown: false }}>
             <Drawer.Screen name="Home" component={HomeScreen} />
             <Drawer.Screen name="Favorite" component={FavoriteScreen} />
             <Drawer.Screen name="Basket" component={BasketScreen} />
@@ -36,5 +40,5 @@ export default function App() {
         </NavigationContainer>
       </Provider>
     </SafeAreaProvider>
-  );
+  )
 }

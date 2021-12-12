@@ -1,17 +1,11 @@
+//slice для работы с товарами в корзине
+
+//функция для создания слайса
 import { createSlice } from '@reduxjs/toolkit';
+//types
+import { BasketState, BasketProduct } from '../../types/StoreTypes';
 
-export interface BasketState {
-  goods: BasketProduct[];
-}
-
-export interface BasketProduct {
-  id: number;
-  image: string;
-  name: string;
-  price: number;
-  count: number;
-}
-
+//начальное состояние
 const initialState: BasketState = {
   goods: [],
 };
@@ -20,28 +14,32 @@ export const basketSlice = createSlice({
   name: 'basket',
   initialState,
   reducers: {
+    //добавить товар в корзину
     addProduct(state, action) {
       state.goods.push({ ...action.payload, count: 1 });
     },
+    //увеличить счетчик для товара с указанным id
     increaseCount(state, action) {
-      for (let elem of state.goods) {
-        if (elem.id === action.payload) {
-          elem.count++;
+      state.goods.forEach((item) => {
+        if (item.id === action.payload) {
+          item.count++;
         }
-      }
+      });
     },
+    //уменьшить счетчик для товара с указанным id
     decreaseCount(state, action) {
-      for (let elem of state.goods) {
-        if (elem.id === action.payload) {
-          elem.count--;
+      state.goods.forEach((item) => {
+        if (item.id === action.payload) {
+          item.count--;
         }
-      }
+      });
     },
+    //удалить из корзины товар с указанным id
     deleteProduct(state, action) {
-      state.goods = JSON.parse(JSON.stringify(state.goods)).filter(
-        (item: BasketProduct) => item.id !== action.payload
-      );
+      let index = state.goods.findIndex((item) => item.id === action.payload);
+      state.goods.splice(index, 1);
     },
+    //очистить корзину
     resetBasket(state) {
       state.goods = [];
     },

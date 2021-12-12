@@ -1,29 +1,15 @@
+//slice для работы с базовыми товарами
+
+//функция для создания слайса
 import { createSlice } from '@reduxjs/toolkit';
+//types
+import { GoodsState } from '../../types/StoreTypes';
 
-type Modes = 'Home' | 'Favorite' | 'Basket' | null;
-
-export interface GoodsState {
-  goods: Product[];
-  sortingMode: Modes;
-  searchMode: Modes;
-  sortingBy: 'price' | 'name' | 'none';
-  searchValue: string;
-  isLoading: boolean;
-}
-
-export interface Product {
-  id: number;
-  image: string;
-  name: string;
-  price: number;
-  isFavorite: boolean;
-}
-
+//начальное состояние
 const initialState: GoodsState = {
   goods: [],
   sortingMode: null,
   sortingBy: 'none',
-  searchMode: null,
   searchValue: '',
   isLoading: true,
 };
@@ -32,34 +18,42 @@ export const goodsSlice = createSlice({
   name: 'goodsSlice',
   initialState,
   reducers: {
+    //установка списка товаров
     setGoods(state, action) {
       state.goods = action.payload;
     },
-    setSearchMode(state, action) {
-      state.searchMode = action.payload;
-    },
     setSortingMode(state, action) {
-      if (state.sortingMode !== action.payload) {
-        state.sortingMode = action.payload;
-      } else {
+      //проверка на то, была ли установка вызвана
+      //ранее из этой же директории
+      if (state.sortingMode === action.payload) {
+        //спрятать компонент сортировки в случае совпадения
+        //и обнулить "предыдущую" отрисовку
         state.sortingMode = null;
+      } else {
+        //открыть компонент сортировки
+        //для данной директории
+        state.sortingMode = action.payload;
       }
     },
+    //установка способа сортировки
     setSortingBy(state, action) {
       state.sortingBy = action.payload;
     },
+    //уставнока поиска по названию
     setSearchValue(state, action) {
       state.searchValue = action.payload;
     },
+    //установка флага загрузки
     setLoading(state, action) {
       state.isLoading = action.payload;
     },
+    //смена значения isFavorite на противоположное для товара с указанным id
     rateProduct(state, action) {
-      for (let elem of state.goods) {
-        if (elem.id === action.payload) {
-          elem.isFavorite = !elem.isFavorite;
+      state.goods.forEach((item) => {
+        if (item.id === action.payload) {
+          item.isFavorite = !item.isFavorite;
         }
-      }
+      });
     },
   },
 });

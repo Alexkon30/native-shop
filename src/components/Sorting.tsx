@@ -1,32 +1,53 @@
-import React from 'react'
-import { View, StyleSheet, Text, Button } from 'react-native'
+//универсальный компонент сортировки
+//для отображения на скринах Home и Favorite
+
+//react type
+import React, { FC } from 'react'
+//native components & styles func
+import { View, StyleSheet, TextInput } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
+//hooks
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { goodsSlice } from '../store/reducers/GoodsSlice'
 import { useRoute } from '@react-navigation/native'
+//reducers
+import { goodsSlice } from '../store/reducers/GoodsSlice'
 
-const Sorting = () => {
+export const Sorting: FC = () => {
 
-  const { sortingMode, sortingBy } = useAppSelector(state => state.goodsReducer)
-  const { setSortingBy } = goodsSlice.actions
-
+  //получаем объект текущего местонахождения
   const route = useRoute()
+
+  //получаем функцию для взаимодействия с состоянием
   const dispatch = useAppDispatch()
+
+  //извлекаем данные о сортировке с помощью деструктуризации
+  const { sortingMode, sortingBy, searchValue } = useAppSelector(state => state.goodsReducer)
+
+  //извлекаем actions с помощью деструктуризации
+  const { setSortingBy, setSearchValue } = goodsSlice.actions
+
 
   return (
     <>
-      {sortingMode === route.name &&
+      { //отрисовывать компонент при условии совпадения
+        //режима сортировки с именем экрана
+        sortingMode === route.name &&
         <View style={styles.switch}>
-          <Text>sort results</Text>
-          <View>
+          <TextInput
+            //поле ввода для поиска по названию
+            style={styles.input}
+            onChangeText={(value) => dispatch(setSearchValue(value))}
+            value={searchValue}
+          />
+          <View style={styles.picker}>
             <Picker
-              style={styles.picker}
-              prompt='Sort results'
+              //select для выбора способа сортировки
+              prompt='Sort results by'
               selectedValue={sortingBy}
               onValueChange={(value) => dispatch(setSortingBy(value))}>
               <Picker.Item label="none" value="none" />
-              <Picker.Item label="by name" value="name" />
-              <Picker.Item label="by price" value="price" />
+              <Picker.Item label="name" value="name" />
+              <Picker.Item label="price" value="price" />
             </Picker>
           </View>
         </View>}
@@ -34,20 +55,24 @@ const Sorting = () => {
   )
 }
 
-export default Sorting
-
-
+//стили
 const styles = StyleSheet.create({
   switch: {
     flexDirection: 'row',
-    // justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'azure',
     paddingHorizontal: 10,
     marginBottom: 5,
-    height: 60
   },
   picker: {
-    width: 200
-  }
+    flex: 1
+  },
+  input: {
+    width: '70%',
+    backgroundColor: 'azure',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+    color: 'darkblue'
+  },
 })
