@@ -3,7 +3,7 @@
 //react type, hook
 import React, { FC, useMemo, useState } from 'react'
 //native components
-import { Text, View, Button, ScrollView, StyleSheet, Modal, Alert } from 'react-native'
+import { Text, View, Button, ScrollView, StyleSheet, Modal } from 'react-native'
 //icons
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -21,8 +21,8 @@ import { BasketProduct } from '../types/StoreTypes'
 
 export const BasketList: FC = () => {
 
-  //стейт для отображения модального окна
-  const [modalVisible, setModalVisible] = useState(true)
+  //локальное состояние для отображения модального окна
+  const [modalVisible, setModalVisible] = useState(false)
 
   //получаем функцию для взаимодействия с состоянием
   const dispatch = useAppDispatch()
